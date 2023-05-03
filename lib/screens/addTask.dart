@@ -26,7 +26,8 @@ class _AddTaskState extends State<AddTask> {
     await FirebaseFirestore.instance.collection('task').doc(uid).collection('MyTask').doc(time.toString()).set({
       'title':titleController.text,
       'desc':descController.text,
-      'time':time.toString()
+      'time':time.toString(),
+      'timestamp':time
     });
     const snackBar = SnackBar(
         content: Text(

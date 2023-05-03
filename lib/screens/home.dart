@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/screens/addTask.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  // Code to get user id 
+  // Code to get user id
 
   getUid() async {
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -50,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 // Retrieving data from firestore
 
-
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('task')
@@ -70,12 +70,42 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Container(
                     margin: EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Color(0xff121211),
                         borderRadius: BorderRadius.circular(10)),
                     height: 90,
-                    child: Column(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(docu[index]['title']),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 20),
+                              child: Text(
+                                docu[index]['title'],
+                                style: GoogleFonts.roboto(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection('task')
+                                  .doc(uid)
+                                  .collection('MyTask')
+                                  .doc(docu[index]['time'])
+                                  .delete();
+                            },
+                          ),
+                        )
                       ],
                     ),
                   );
@@ -84,9 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           },
         ),
-
-
-
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
