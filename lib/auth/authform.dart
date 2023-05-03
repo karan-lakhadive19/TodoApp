@@ -40,7 +40,7 @@ class _AuthFormState extends State<AuthForm> {
             color: Colors.white, // set text color
           ),
         ),
-        backgroundColor: Colors.blue, // set background color
+        backgroundColor: Colors.purple, // set background color
         behavior: SnackBarBehavior.floating, // set the behavior to floating
       );
 
@@ -57,7 +57,7 @@ class _AuthFormState extends State<AuthForm> {
             color: Colors.white, // set text color
           ),
         ),
-        backgroundColor: Colors.blue, // set background color
+        backgroundColor: Colors.purple, // set background color
         behavior: SnackBarBehavior.floating, // set the behavior to floating
       );
         
@@ -72,7 +72,7 @@ class _AuthFormState extends State<AuthForm> {
             color: Colors.white, // set text color
           ),
         ),
-        backgroundColor: Colors.blue, // set background color
+        backgroundColor: Colors.purple, // set background color
         behavior: SnackBarBehavior.floating, // set the behavior to floating
       );
        
@@ -94,7 +94,7 @@ class _AuthFormState extends State<AuthForm> {
             color: Colors.white, // set text color
           ),
         ),
-        backgroundColor: Colors.blue, // set background color
+        backgroundColor: Colors.purple, // set background color
         behavior: SnackBarBehavior.floating, // set the behavior to floating
       );
       
@@ -107,6 +107,7 @@ class _AuthFormState extends State<AuthForm> {
           .set({
         'username': _username,
         'email': _email,
+        'pass': _password
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -118,7 +119,7 @@ class _AuthFormState extends State<AuthForm> {
             color: Colors.white, // set text color
           ),
         ),
-        backgroundColor: Colors.blue, // set background color
+        backgroundColor: Colors.purple, // set background color
         behavior: SnackBarBehavior.floating, // set the behavior to floating
       );
         
@@ -133,7 +134,7 @@ class _AuthFormState extends State<AuthForm> {
             color: Colors.white, // set text color
           ),
         ),
-        backgroundColor: Colors.blue, // set background color
+        backgroundColor: Colors.purple, // set background color
         behavior: SnackBarBehavior.floating, // set the behavior to floating
       );
         

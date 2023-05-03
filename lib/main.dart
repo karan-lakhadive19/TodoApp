@@ -10,7 +10,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
   runApp(MyApp());
 }
 
@@ -20,13 +20,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(),builder: (context, usersnapshot) {
-        if(usersnapshot.hasData) {
-          return HomeScreen();
-        }else {
-          return AuthScreen();
-        }
-      },),
+      theme: ThemeData(primarySwatch: Colors.purple),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, usersnapshot) {
+          if (usersnapshot.hasData) {
+            return HomeScreen();
+          } else {
+            return AuthScreen();
+          }
+        },
+      ),
     );
   }
 }

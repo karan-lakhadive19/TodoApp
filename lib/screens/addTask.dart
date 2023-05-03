@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo_app/screens/home.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -13,23 +14,41 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
-
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
 
-  addTaskFirebase()async {
+  addTaskFirebase() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     // UserCredential userCredential = await FirebaseAuth.instance;
     final User? user = auth.currentUser;
     String uid = user!.uid;
     var time = DateTime.now();
-    await FirebaseFirestore.instance.collection('task').doc(uid).collection('MyTask').doc(time.toString()).set({
-      'title':titleController.text,
-      'desc':descController.text,
-      'time':time.toString(),
-      'timestamp':time
-    });
-    const snackBar = SnackBar(
+    if (titleController.text.isEmpty || descController.text.isEmpty) {
+      const snackBar = SnackBar(
+        content: Text(
+          "Title or Description cannot be empty!",
+          style: TextStyle(
+            fontSize: 16, // adjust to your desired font size
+            color: Colors.white, // set text color
+          ),
+        ),
+        backgroundColor: Colors.purple, // set background color
+        behavior: SnackBarBehavior.floating, // set the behavior to floating
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      await FirebaseFirestore.instance
+          .collection('task')
+          .doc(uid)
+          .collection('MyTask')
+          .doc(time.toString())
+          .set({
+        'title': titleController.text,
+        'desc': descController.text,
+        'time': time.toString(),
+        'timestamp': time
+      });
+      const snackBar = SnackBar(
         content: Text(
           "Task Added!",
           style: TextStyle(
@@ -37,21 +56,25 @@ class _AddTaskState extends State<AddTask> {
             color: Colors.white, // set text color
           ),
         ),
-        backgroundColor: Colors.blue, // set background color
+        backgroundColor: Colors.purpleAccent, // set background color
         behavior: SnackBarBehavior.floating, // set the behavior to floating
       );
-       
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-    final maxLines = 5;
+    final maxLines = 7;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Task"),
+        centerTitle: true,
+        title: Text(
+          "Add Task",
+          style: GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
       ),
       body: Container(
         child: Padding(
@@ -69,7 +92,7 @@ class _AddTaskState extends State<AddTask> {
                 height: 10,
               ),
               Container(
-                 height: maxLines * 24.0,
+                height: maxLines * 24.0,
                 child: TextField(
                   controller: descController,
                   maxLines: maxLines,
