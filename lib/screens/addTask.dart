@@ -67,7 +67,7 @@ class _AddTaskState extends State<AddTask> {
 
   @override
   Widget build(BuildContext context) {
-    final maxLines = 7;
+    final maxLines = 5;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

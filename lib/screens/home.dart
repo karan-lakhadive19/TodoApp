@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/screens/addTask.dart';
 import 'package:todo_app/screens/desc.dart';
+import 'package:get/get.dart';
+import 'edit.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -60,6 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
               .collection('MyTask')
               .snapshots(),
           builder: (context, snapshot) {
+
+           
+
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(),
@@ -69,8 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
               return ListView.builder(
                 itemCount: docu.length,
                 itemBuilder: (context, index) {
+                  var t = snapshot.data!.docs[index]['time'];
+                  var title = snapshot.data!.docs[index]['title'];
+                  var desc = snapshot.data!.docs[index]['desc'];
                   return InkWell(
                     onTap: () {
+                      
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>Description(title: docu[index]['title'], desc: docu[index]['desc'])));
                     },
                     child: Container(
@@ -94,12 +103,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              Container(
+                              // Container(
                                 
-                              )
+                              // )
                             ],
                           ),
+                          SizedBox(width: 100,),
                           Container(
+                           
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.to(
+                                    ()=>EditTask(),
+                                    arguments: {
+                                      'title':title,
+                                      'desc':desc,
+                                      'time':t
+                                    }
+                                  );
+                                
+                              },
+                              child: Icon(Icons.edit, color: Colors.white,),
+                            ),
+                          ),
+                          Container(
+                           
                             child: IconButton(
                               icon: Icon(
                                 Icons.delete,
@@ -114,7 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .delete();
                               },
                             ),
-                          )
+                          ),
+                         
                         ],
                       ),
                     ),
